@@ -1,0 +1,34 @@
+Do odpalenia programu potrzebny jest server mysql
+w pliku src/main/resources/db.properties zmieniamy dane logowania na nasze dane i port servera jeśli jest inny niż 3307
+
+tworzymy bazę danych:
+CREATE DATABASE go;
+USE go;
+
+CREATE TABLE games (
+	id INT PRIMARY KEY,
+	winner ENUM('WHITE', 'BLACK')
+);
+CREATE TABLE moves (
+	id_game INT,
+	id_move INT,
+	type_of_move ENUM('add', 'delete'),
+	x_c INT,
+	y_c INT,
+	color ENUM('WHITE', 'BLACK'),
+	FOREIGN KEY (id_game) REFERENCES games(id)
+);
+
+
+PROSZE ODPALAĆ ZA POMOCĄ PRZYCISKU run lub za pomocą mavena (najpierw mvn clean install)
+komendy są podane dla Windowsa, komendy należy odpalać w oddzielnych terminalach
+
+aby odpalić grę:
+odpalamy plik GO.java
+    mvn exec:java -"Dexec.mainClass=go.game.ClientServer.GO"
+wybieramy rodzaj gry. 
+jesli wybierzemy load game odpali sie automatycznie
+jeśli wybierzemy new game, otwiera sie kolejny frame gdzie wybieramy tryb gry.
+jesli wybierzemy gre z botem to odpali się automatycznie
+jeśli wybierzemy 2 player game to odpalamy Client.java dwukrotnie - każdy z nich jest jednym z graczy
+    mvn exec:java -"Dexec.mainClass=go.game.ClientServer.Client"
